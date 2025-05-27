@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mahadevan S.K - DXC Application Support Role</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #333;
+      overflow: hidden;
+      height: 100vh;
+    }
+
+    .presentation-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .slide {
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      padding: 40px;
+      height: calc(100vh - 120px);
+      width: 100%;
+      max-width: 1150px;
+      position: absolute;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(100px);
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .slide.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0);
+    }
+
+    .slide.prev {
+      transform: translateX(-100px);
+    }
+
+    .slide:hover {
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    }
+
+    .slide-number {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 25px;
+      display: inline-block;
+      margin-bottom: 20px;
+      font-weight: 600;
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+      animation: slideInDown 0.8s ease-out;
+    }
+
+    h1 {
+      color: #2c3e50;
+      font-size: 2.5em;
+      text-align: center;
+      margin-bottom: 20px;
+      animation: fadeInUp 1s ease-out 0.2s both;
+    }
+
+    h2 {
+      color: #667eea;
+      font-size: 2em;
+      margin-bottom: 25px;
+      border-bottom: 3px solid #667eea;
+      padding-bottom: 10px;
+      animation: fadeInLeft 0.8s ease-out 0.3s both;
+    }
+
+    h3 {
+      color: #34495e;
+      font-size: 1.3em;
+      margin: 15px 0 12px 0;
+      display: flex;
+      align-items: center;
+      animation: fadeInRight 0.6s ease-out 0.4s both;
+    }
+
+    h4 {
+      color: #2c3e50;
+      margin-bottom: 15px;
+      font-size: 1.2em;
+    }
+
+    p {
+      font-size: 1.1rem;
+      margin: 10px 0;
+      line-height: 1.6;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      padding: 8px 0;
+      padding-left: 25px;
+      position: relative;
+      font-size: 1rem;
+      margin-bottom: 8px;
+      line-height: 1.5;
+    }
+
+    li::before {
+      content: '\2713';
+      position: absolute;
+      left: 0;
+      color: #27ae60;
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+
+    .highlight-box {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      padding: 25px;
+      border-radius: 15px;
+      margin: 20px 0;
+      text-align: center;
+      animation: pulse 2s ease-in-out infinite;
+      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+    }
+
+    .highlight-box h3 {
+      color: white;
+      margin-bottom: 15px;
+      animation: none;
+      font-size: 1.3em;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
+      margin-top: 20px;
+      animation: fadeInUp 0.8s ease-out 0.5s both;
+    }
+
+    .skill-category {
+      background: #f8f9fa;
+      padding: 25px;
+      border-left: 5px solid #667eea;
+      border-radius: 10px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .skill-category:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .experience-item {
+      background: #f8f9fa;
+      padding: 20px;
+      border-radius: 10px;
+      border-left: 4px solid #27ae60;
+      margin: 15px 0;
+      transition: transform 0.2s ease;
+      animation: fadeInLeft 0.6s ease-out 0.6s both;
+    }
+
+    .experience-item:hover {
+      transform: translateX(5px);
+    }
+
+    .experience-item strong {
+      color: #2c3e50;
+      display: block;
+      margin-bottom: 10px;
+      font-size: 1.1em;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 30px;
+      padding: 25px;
+      background: #2c3e50;
+      color: white;
+      border-radius: 15px;
+    }
+
+    .contact-info {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 15px;
+      flex-wrap: wrap;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1.1em;
+    }
+
+    /* Navigation Controls */
+    .navigation {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 20px;
+      z-index: 1000;
+    }
+
+    .nav-btn {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1em;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .nav-btn:hover:not(:disabled) {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+    }
+
+    .nav-btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* Slide Indicator */
+    .slide-indicator {
+      position: fixed;
+      top: 30px;
+      right: 30px;
+      background: rgba(44, 62, 80, 0.9);
+      color: white;
+      padding: 12px 20px;
+      border-radius: 25px;
+      font-weight: 600;
+      font-size: 1.1em;
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+    }
+
+    /* Progress Bar */
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      transition: width 0.6s ease;
+      z-index: 1000;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes fadeInRight {
+      from {
+        opacity: 0;
+        transform: translateX(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes slideInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.02);
+      }
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .skills-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+      
+      .slide {
+        padding: 25px;
+      }
+      
+      h1 {
+        font-size: 2em;
+      }
+      
+      h2 {
+        font-size: 1.7em;
+      }
+      
+      .contact-info {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .nav-btn {
+        padding: 12px 24px;
+        font-size: 0.9em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Progress Bar -->
+  <div class="progress-bar" id="progressBar"></div>
+  
+  <!-- Slide Indicator -->
+  <div class="slide-indicator" id="slideIndicator">1 / 4</div>
+
+  <div class="presentation-container">
+    <!-- Slide 1: Introduction -->
+    <div class="slide active">
+      <div class="slide-number">1 / 4</div>
+      <h1>Mahadevan S.K</h1>
+      <div class="highlight-box">
+        <h3>Full Stack Developer → Infrastructure Support Specialist</h3>
+        <p>18+ Years of Full Stack Experience | Ready for Critical Infrastructure Maintenance</p>
+      </div>
+      <div class="skills-grid">
+        <div>
+          <h3>📍 Based in Oslo, Norway</h3>
+          <p>Ready for shift work to support global applications from DXC Oslo office</p>
+          <h3>🎯 Perfect Fit for DXC</h3>
+          <p>Strong foundation in CI/CD, cloud platforms, and enterprise application maintenance</p>
+        </div>
+        <div>
+          <h3>🏆 Key Strengths</h3>
+          <ul>
+            <li>18+ years maintaining production applications</li>
+            <li>Enterprise client experience (Verizon, Merck, DHL)</li>
+            <li>Performance optimization expert</li>
+            <li>Agile project management certified</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 2: Essential Skills -->
+    <div class="slide">
+      <div class="slide-number">2 / 4</div>
+      <h2>Essential Skills Match</h2>
+      <div class="skills-grid">
+        <div class="skill-category">
+          <h4>🖥️ Application Server & Infrastructure</h4>
+          <ul>
+            <li><strong>Web Servers:</strong> Experience with deployment platforms</li>
+            <li><strong>Cloud Platforms:</strong> Azure, Google Cloud Platform</li>
+            <li><strong>Containerization:</strong> Docker, Kubernetes</li>
+            <li><strong>Microservices:</strong> RESTful APIs, SOAP Integration</li>
+          </ul>
+        </div>
+        <div class="skill-category">
+          <h4>🔧 Debugging & Operations</h4>
+          <ul>
+            <li><strong>Performance Optimization:</strong> Reduced load times by 40%</li>
+            <li><strong>Database Integration:</strong> Oracle, MS SQL, API data handling</li>
+            <li><strong>System Monitoring:</strong> Ready for Splunk, Dynatrace</li>
+            <li><strong>Log Analysis:</strong> Command line troubleshooting</li>
+          </ul>
+        </div>
+      </div>
+      <div class="highlight-box">
+        <h3>🚀 DevOps-Ready Mindset</h3>
+        <p>Built CI/CD pipelines and handled change management in production environments</p>
+      </div>
+      <div class="experience-item">
+        <strong>Relevant Experience:</strong>
+        Built and optimized CI/CD pipelines for enterprise applications, enabling smooth automated deployments and faster release cycles - directly applicable to change and release management
+      </div>
+    </div>
+
+    <!-- Slide 3: Advantage Skills -->
+    <div class="slide">
+      <div class="slide-number">3 / 4</div>
+      <h2>Advantage Skills - Strong Foundation</h2>
+      <div class="skills-grid">
+        <div class="skill-category">
+          <h4>🔄 CI/CD & Version Control</h4>
+          <ul>
+            <li><strong>Jenkins:</strong> Pipeline automation experience</li>
+            <li><strong>Git/Bitbucket:</strong> Daily workflow management</li>
+            <li><strong>Azure DevOps:</strong> End-to-end deployment</li>
+            <li><strong>GitHub Actions:</strong> Automated workflows</li>
+          </ul>
+        </div>
+        <div class="skill-category">
+          <h4>📊 Monitoring & Java Support</h4>
+          <ul>
+            <li><strong>Monitoring Tools:</strong> Ready for Splunk, Dynatrace, ELK</li>
+            <li><strong>Java Ecosystem:</strong> Understanding Java platforms</li>
+            <li><strong>Full Stack Architecture:</strong> End-to-end system knowledge</li>
+            <li><strong>Database Management:</strong> Oracle, MS SQL experience</li>
+          </ul>
+        </div>
+      </div>
+      <div class="experience-item">
+        <strong>Full Stack Enterprise Experience:</strong>
+        Successfully maintained critical applications for Fortune 500 clients including Verizon, Cushman & Wakefield, and Merck - ensuring 99.9% uptime with deep understanding of Java ecosystems, Oracle databases, and enterprise monitoring solutions
+      </div>
+      <div class="experience-item">
+        <strong>Global Team Leadership:</strong>
+        Led cross-functional teams across Canada, Germany, UK, and India - perfect preparation for supporting global applications in shift-based operations
+      </div>
+    </div>
+
+    <!-- Slide 4: Why DXC -->
+    <div class="slide">
+      <div class="slide-number">4 / 4</div>
+      <h2>Why DXC Should Choose Me</h2>
+      <div class="skills-grid">
+        <div>
+          <h3>🏢 DXC Mission Alignment</h3>
+          <p>18+ years optimizing enterprise applications for Fortune 500 companies directly supports DXC's digital transformation mission</p>
+          <h3>🌍 Global Delivery Ready</h3>
+          <p>Experience across Canada, Germany, UK, Netherlands & India - perfect for DXC's Oslo office shift requirements</p>
+        </div>
+        <div>
+          <h3>⚡ Critical Infrastructure Experience</h3>
+          <p>Maintained high-availability systems for banking, healthcare, and telecom - exactly what DXC's enterprise clients need</p>
+          <h3>🚀 Immediate Impact</h3>
+          <p>Day 1 readiness with enterprise mindset, Java/Oracle expertise, and monitoring tool adaptability</p>
+        </div>
+      </div>
+      <div class="highlight-box">
+        <h3>🎯 What I Bring to DXC Technology</h3>
+        <p><strong>Enterprise DNA</strong> | <strong>Global Team Experience</strong> | <strong>Full Stack Foundation</strong> | <strong>Oslo-Based & Shift Ready</strong></p>
+      </div>
+      <div class="skills-grid" style="margin-top: 20px;">
+        <div class="experience-item">
+          <strong>Immediate Value to DXC:</strong>
+          ✅ Fortune 500 client experience<br>
+          ✅ Critical system maintenance proven track record<br>
+          ✅ 24/7 global support model ready<br>
+          ✅ Bridge between development and operations
+        </div>
+        <div class="experience-item">
+          <strong>My Commitment to DXC:</strong>
+          🎯 Available immediately in Oslo<br>
+          🎯 Flexible for shift work<br>
+          🎯 Eager to master ServiceNow, Ansible, Splunk<br>
+          🎯 Long-term growth with DXC technology stack
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation Controls -->
+  <div class="navigation">
+    <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">← Previous</button>
+    <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Next →</button>
+  </div>
+
+  <!-- Footer (only visible on last slide) -->
+  <div class="footer" id="footer" style="display: none;">
+    <h3>Let's Connect</h3>
+    <div class="contact-info">
+      <div class="contact-item">📧 karthic2914@gmail.com</div>
+      <div class="contact-item">📱 +47 40975201</div>
+      <div class="contact-item">💼 linkedin.com/in/mahadevankarthic</div>
+    </div>
+  </div>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+
+    function updateProgressBar() {
+      const progress = ((currentSlide + 1) / totalSlides) * 100;
+      document.getElementById('progressBar').style.width = progress + '%';
+    }
+
+    function showSlide(n) {
+      // Remove active and prev classes from all slides
+      slides.forEach((slide, index) => {
+        slide.classList.remove('active', 'prev');
+        if (index < currentSlide) {
+          slide.classList.add('prev');
+        }
+      });
+
+      // Handle slide bounds
+      if (n >= totalSlides) currentSlide = totalSlides - 1;
+      if (n < 0) currentSlide = 0;
+
+      // Show current slide
+      slides[currentSlide].classList.add('active');
+
+      // Update navigation buttons
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      
+      if (prevBtn && nextBtn) {
+        prevBtn.disabled = currentSlide === 0;
+        nextBtn.disabled = currentSlide === totalSlides - 1;
+      }
+
+      // Update slide indicator
+      const indicator = document.getElementById('slideIndicator');
+      if (indicator) {
+        indicator.textContent = `${currentSlide + 1} / ${totalSlides}`;
+      }
+
+      // Show footer only on last slide
+      const footer = document.getElementById('footer');
+      if (footer) {
+        footer.style.display = currentSlide === totalSlides - 1 ? 'block' : 'none';
+      }
+
+      // Update progress bar
+      updateProgressBar();
+    }
+
+    function changeSlide(n) {
+      currentSlide += n;
+      showSlide(currentSlide);
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'ArrowLeft') changeSlide(-1);
+      if (event.key === 'ArrowRight') changeSlide(1);
+      if (event.key === 'Escape') {
+        if (document.fullscreenElement) {
+          document.exitFullscreen();
+        }
+      }
+      if (event.key === 'F11') {
+        event.preventDefault();
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen();
+        }
+      }
+    });
+
+    // Touch/Swipe support for mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    document.addEventListener('touchstart', function(event) {
+      touchStartX = event.changedTouches[0].screenX;
+    });
+
+    document.addEventListener('touchend', function(event) {
+      touchEndX = event.changedTouches[0].screenX;
+      handleSwipe();
+    });
+
+    function handleSwipe() {
+      const swipeThreshold = 50;
+      if (touchEndX < touchStartX - swipeThreshold) {
+        changeSlide(1); // Swipe left - next slide
+      }
+      if (touchEndX > touchStartX + swipeThreshold) {
+        changeSlide(-1); // Swipe right - previous slide
+      }
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+      showSlide(0);
+    });
+
+    // Auto-play option (uncomment to enable)
+    // setInterval(() => {
+    //   if (currentSlide < totalSlides - 1) {
+    //     changeSlide(1);
+    //   }
+    // }, 10000); // Change slide every 10 seconds
+  </script>
+</body>
+</html>
